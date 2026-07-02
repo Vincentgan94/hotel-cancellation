@@ -1,0 +1,2 @@
+Original Rows,Original Columns,Duplicate Rows Removed,Cleaned Rows,Cleaned Columns,Not Cancelled Count,Cancelled Count,Output File
+119390,32,31994,86637,34,62652,23985,processed_data/hotel_bookings_cleaned_q2.csv

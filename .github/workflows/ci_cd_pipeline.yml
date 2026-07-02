@@ -1,0 +1,58 @@
+name: Hotel Booking Data Validation and Q2 Cleaning CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  data-validation-and-cleaning-pipeline:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v4
+
+      - name: Set up Python environment
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install project dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run automated validation and Q2 cleaning script
+        run: |
+          python src/data_validation.py
+
+      - name: Run automated validation tests
+        run: |
+          pytest tests/ -v
+
+      - name: Upload validation and Q2 cleaned dataset artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: hotel-booking-validation-and-q2-cleaning-output
+          path: |
+            validation_reports/validation_report.csv
+            validation_reports/q2_cleaning_summary.csv
+            processed_data/hotel_bookings_cleaned_q2.csv
+
+      - name: Commit validation reports and Q2 cleaned dataset
+        if: github.event_name == 'push'
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add validation_reports/validation_report.csv
+          git add validation_reports/q2_cleaning_summary.csv
+          git add processed_data/hotel_bookings_cleaned_q2.csv
+          git commit -m "Add validation reports and Q2 cleaned dataset from CI/CD" || echo "No changes to commit"
+          git push

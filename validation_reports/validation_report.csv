@@ -1,0 +1,11 @@
+Validation Check,Result,Status
+Dataset loaded,119390 rows and 32 columns,PASS
+Required columns exist,All required columns are available,PASS
+Target variable validity,"Unique values in is_canceled: [0, 1]",PASS
+Missing values,"{'children': 4, 'country': 488, 'agent': 16340, 'company': 112593}",WARNING
+Duplicate records,31994 duplicate rows found,WARNING
+Invalid guest count,180 rows with zero total guests,WARNING
+Zero total stay nights,715 rows with zero total stay nights,WARNING
+ADR value range,1 negative ADR rows; 1 ADR rows above 1000,WARNING
+Reservation status date parsing,0 invalid parsed dates,PASS
+Target leakage column check,"Leakage-prone columns found: ['reservation_status', 'reservation_status_date']",WARNING
